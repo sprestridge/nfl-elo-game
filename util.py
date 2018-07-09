@@ -11,10 +11,11 @@ class Util:
         """ Initializes game objects from csv """
         games = [item for item in csv.DictReader(open(file))]
 
-        # Uncommenting these three lines will grab the latest game results for 2017, update team ratings accordingly, and make forecasts for upcoming games
-        #file_2017 = file.replace(".", "_2017.")
-        #urlretrieve("https://projects.fivethirtyeight.com/nfl-api/2017/nfl_games_2017.csv", file_2017)
-        #games += [item for item in csv.DictReader(open(file_2017))]
+        # Uncommenting these three lines will grab the latest game results for 2018, update team ratings accordingly, and make forecasts for upcoming games
+        file_2018 = file.replace(".", "_2018.")
+        # urlretrieve("https://projects.fivethirtyeight.com/nfl-api/2017/nfl_games_2018.csv", file_2018)
+        urlretrieve("https://github.com/sprestridge/nfl-elo-game/tree/master/data/nfl_games_2018.csv", file_2018)
+        games += [item for item in csv.DictReader(open(file_2018))]
 
         for game in games:
             game['season'], game['neutral'], game['playoff'] = int(game['season']), int(game['neutral']), int(game['playoff'])
@@ -64,14 +65,32 @@ class Util:
                 my_points *= 2
             my_points_by_season[game['season']] += my_points
 
+        my_better_forecast_count = 0
+        my_worse_forecast_count = 0
+        my_tie_forecast_count = 0    
         # Print individual seasons
         for season in my_points_by_season:
-            print("In %s, your forecasts would have gotten %s points. Elo got %s points." % (season, round(my_points_by_season[season], 2), round(elo_points_by_season[season], 2)))
+            my_points_for_season = round(my_points_by_season[season], 2)
+            elo_points_for_season = round(elo_points_by_season[season], 2)
+ 
+            if my_points_for_season > elo_points_for_season:
+                my_better_forecast_count += 1
+            elif my_points_for_season < elo_points_for_season:
+                my_worse_forecast_count += 1
+            else:
+                my_tie_forecast_count += 1
+ 
+            print("In %s, your forecasts would have gotten %s points. Elo got %s points." % (season, my_points_for_season, elo_points_for_season))
 
         # Show overall performance
         my_avg = sum(my_points_by_season.values())/len(my_points_by_season.values())
         elo_avg = sum(elo_points_by_season.values())/len(elo_points_by_season.values())
+
         print("\nOn average, your forecasts would have gotten %s points per season. Elo got %s points per season.\n" % (round(my_avg, 2), round(elo_avg, 2)))
+        print("Your forecasts are better than elo for %s seasons" % (my_better_forecast_count))
+        print("Your forecasts are worse than elo for %s seasons" % (my_worse_forecast_count))
+        if my_tie_forecast_count != 0:
+            print("Your forecasts are the same as elo for %s seasons" % (my_tie_forecast_count))
 
         # Print forecasts for upcoming games
         if len(upcoming_games) > 0:

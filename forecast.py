@@ -1,9 +1,13 @@
 import csv
 import math
 
-HFA = 65.0     # Home field advantage is worth 65 Elo points
-K = 20.0       # The speed at which Elo ratings change
-REVERT = 1/3.0 # Between seasons, a team retains 2/3 of its previous season's rating
+# NOTE: HFA = 61.800000000000004 | K = 20.5 | REVERT = 0.33 seems to be best combo from TensforFlow model
+# 646.46 pts (TensorFlow) vs 645.39 pts (538)
+# Numbers below get the same points but more seasons are better.
+
+HFA = 61.300000000000004  # Home field advantage default: 65 Elo points
+K = 21.700000000000003    # The speed at which Elo ratings change, default: 20
+REVERT = 0.34 # Default: Between seasons, a team retains 2/3 of its previous season's rating, so Revert = 1/3.0
 
 REVERSIONS = {'CBD1925': 1502.032, 'RAC1926': 1403.384, 'LOU1926': 1307.201, 'CIB1927': 1362.919, 'MNN1929': 1306.702, # Some between-season reversions of unknown origin
               'BFF1929': 1331.943, 'LAR1944': 1373.977, 'PHI1944': 1497.988, 'ARI1945': 1353.939, 'PIT1945': 1353.939, 'CLE1999': 1300.0}
