@@ -13,8 +13,8 @@ class Util:
 
         # Uncommenting these three lines will grab the latest game results for 2018, update team ratings accordingly, and make forecasts for upcoming games
         file_2018 = file.replace(".", "_2018.")
-        # urlretrieve("https://projects.fivethirtyeight.com/nfl-api/2017/nfl_games_2018.csv", file_2018)
-        urlretrieve("https://github.com/sprestridge/nfl-elo-game/tree/master/data/nfl_games_2018.csv", file_2018)
+        urlretrieve("https://projects.fivethirtyeight.com/nfl-api/2018/nfl_games_2018.csv", file_2018)
+        #urlretrieve("https://sprestridge.net/files/nfl_games_2018.csv", file_2018)
         games += [item for item in csv.DictReader(open(file_2018))]
 
         for game in games:
