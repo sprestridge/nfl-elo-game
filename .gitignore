@@ -1,4 +1,8 @@
 *.pyc
 data/nfl_games_2017.csv
+<<<<<<< HEAD
 data/nfl_games_2018.xlsx
 data/raw_user_forecasts.csv
+=======
+data/nfl_games_2018.csv
+>>>>>>> 54c45b207499ad8f21b86cdb3d53fca8570f4416
